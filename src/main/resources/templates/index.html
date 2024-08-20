@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Management System</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <header class=" bg-dark p-4">
+        <h1 class=" text-center text-light">SPRING BOOT CRUD</h1>
+    </header>
+    <div class=" container mt-4">
+        <div class="d-flex justify-content-between align-items-center">
+            <h3>Employees list</h3>
+            <a th:href="@{/showNewEmployee}" class=" btn btn-primary">new employee</a>
+        </div>
+        <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>The Result</strong> <span th:text="${success}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <table class="mt-3 table table-bordered">
+            <thead>
+                <tr class=" table-dark text-center">
+                    <th>ID</th>
+                    <th>Image</th>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Salary</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="employee : ${employees} ">
+                    <td th:text="${employee.id}"></td>
+                    <td th:text="${employee.firstName}"></td>
+                    <td th:text="${employee.firstName} +' '+ ${employee.lastName}"></td>
+                    <td class=" text-center" th:text="${employee.email}"></td>
+                    <td></td>
+                    <td class=" text-center">
+                        <a href="" class=" btn btn-info rounded-0 btn-sm">view</a>
+                        <a th:href="@{/showEmployee/{id}(id=${employee.id})}" class="btn btn-primary rounded-0 btn-sm">Edit</a>
+                        <a th:attr="data-id=${employee.id}" href="javascript:void" class="btn btn-danger rounded-0 btn-sm btn_deleted">Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    var buttonDeletedEmployee = document.querySelectorAll(".btn_deleted");
+    buttonDeletedEmployee.forEach((value)=>{
+        value.addEventListener("click",()=>{
+            if(confirm("Do you want to delete this ?")){
+                var id = value.getAttribute("data-id");
+                window.location.href = `http://localhost:8080/destroyEmployee/${id}`;
+            }
+        })
+    })
+
+
+    
+</script>
+</html>
